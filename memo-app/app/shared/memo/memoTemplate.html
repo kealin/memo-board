@@ -1,0 +1,8 @@
+<div class="memo">
+	<div ng-class="{'memo-title-red': memo.type === 'red', 'memo-title-yellow': memo.type === 'yellow', 'memo-title-green': memo.type === 'green', 'memo-title-none': memo.type === 'none'}">
+		{{memo.title}}
+	</div>
+	<div class="memo-content">
+		{{memo.content}}
+	</div>
+</div>

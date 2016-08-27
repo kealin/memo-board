@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html ng-app="app">
+
+<head>
+	<meta charset="UTF-8">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+	  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.css" />
+	  <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.css" />
+	  <link rel="stylesheet" href="bower_components/angular-ui-notification/dist/angular-ui-notification.css" />
+	  <link rel="stylesheet" href="assets/css/main.css" />
+	  <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+</head>
+
+<body ng-controller="homeController">
+
+<ng-topnav></ng-topnav>
+	<div class="container">
+	<div ng-view></div>
+  </div>
+  
+  </div>
+  
+	  <script src="bower_components/angular/angular.js"></script>
+	  <script src="app/app.module.js"></script>
+	  <script src="app/app.routes.js"></script>
+	  
+	  <!-- Bower components -->
+	  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	  <script src="bower_components/angular-route/angular-route.js"></script>
+	  <script src="bower_components/angular-block-ui/dist/angular-block-ui.js"></script>
+	  <script src="bower_components/angular-ui-notification/dist/angular-ui-notification.js"></script>
+	  
+	  <!-- Controllers -->
+	  <script src="app/components/home/homeController.js"></script>
+	  
+	  <!-- Services -->
+	  <script src="app/shared/services/dataService.js"></script>
+	  <script src="app/shared/services/newMemoService.js"></script>
+	  
+	  <!-- Directives -->
+	  <script src="app/shared/topnav/ngTopnav.js"></script>
+	  <script src="app/shared/memo/ngMemo.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/blueprint"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+           xsi:schemaLocation="
+       http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd
+       http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.0.0.xsd">
+
+    <cm:property-placeholder id="memo.placeholder" 
+                             persistent-id="memo">
+        <cm:default-properties>
+            <cm:property name="runMode" value="test" />
+            <cm:property name="test.error" value="error" />
+            <cm:property name="prod.error" value="error" />
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <reference id="memoDataSourceRef" 
+        interface="javax.sql.DataSource" filter="(osgi.jndi.service.name=jdbc/memo)" 
+        timeout="10000" />
+
+    <camelContext id="memo-context" trace="false" useMDCLogging="true" xmlns="http://camel.apache.org/schema/blueprint">
+        <errorHandler id="deadLetterErrorHandler" 
+                      type="DeadLetterChannel" 
+                      deadLetterUri="activemq:topic:deadMessages"
+                      redeliveryPolicyRef="myPolicy" />
+					  
+	   <dataFormats>
+              <json id="jack" library="Jackson"/>
+        </dataFormats>			  
+					  
+        <redeliveryPolicyProfile id="myPolicy" maximumRedeliveries="0" redeliveryDelay="5000" />
+
+        <onException>
+            <exception>java.lang.Exception</exception>
+            <redeliveryPolicy maximumRedeliveries="0" redeliveryDelay="5000" />
+            <handled>
+                <constant>true</constant>
+            </handled>
+
+            <log message="ERROR OCCURED" />
+            <setHeader headerName="EXCEPTION">
+                <simple>${exception.message}</simple>
+            </setHeader>
+
+            <setHeader headerName="EXCEPTION_STACKTRACE">
+                <simple>${exception.stacktrace}</simple>
+            </setHeader>
+            <setBody>
+                <simple>ERROR :: ${exception.message}
+STACKTRACE :: ${exception.stacktrace}
+                </simple>
+            </setBody>
+            
+            <to uri="file:{{{{runMode}}.error}}" />
+        </onException>
+
+        <route id="memo-get-all">
+            <from uri="activemq:queue:memo-get-all" />      
+            <setBody>
+                <simple>
+                    SELECT
+						memos.id,
+						memos.title,
+						memos.content,
+						memos.date,
+						status_info.type,
+						status.status_id
+                  FROM memos
+
+                  INNER JOIN status
+                    ON memos.id = status.memo_id
+
+                  INNER JOIN status_info
+                    ON status.status_id = status_info.id
+                </simple>
+            </setBody>    
+			<to uri="direct:sendQuery"/>
+        </route>
+		
+		<route id="memo-insert-new">
+			<from uri="activemq:queue:memo-insert"/>		
+			
+			<setHeader headerName="memo_content">
+				<jsonpath suppressExceptions="true">memo_content</jsonpath>
+			</setHeader>
+			
+			<setHeader headerName="memo_title">
+				<jsonpath suppressExceptions="true">memo_title</jsonpath>
+			</setHeader>
+			
+			<setHeader headerName="status_id">
+				<jsonpath suppressExceptions="true">status_id</jsonpath>
+			</setHeader>
+			
+			<validate><simple>${headers.memo_content} != ""</simple></validate>
+            <validate><simple>${headers.memo_title} != ""</simple></validate>
+			<validate><simple>${headers.status_id} != ""</simple></validate>
+			
+			<to uri="direct:insert-memo" />	
+		</route>
+		
+		<route id="insert-memo">
+            <from uri="direct:insert-memo" />
+			<log message="Entered insert route"/>
+            <setBody>
+                <simple>
+                  INSERT INTO memos
+                             (title, content)
+				  VALUES
+							(${headers.memo_title}, ${headers.memo_content})
+                </simple>
+            </setBody>
+            <to uri="jdbc:memoDataSourceRef" />
+			<log message="${body}"/>
+			
+            <setBody>
+                <simple>
+                     SELECT LAST_INSERT_ID()
+                </simple>
+            </setBody>
+            <to uri="jdbc:memoDataSourceRef" />
+            	
+			<setHeader headerName="memo_id">
+				<jsonpath suppressExceptions="true">id</jsonpath>
+			</setHeader>
+        </route>
+		
+		<route id="types-get-all">
+			<from uri="activemq:queue:types-get-all" />
+			<setBody>
+				<simple>
+				SELECT
+					*
+				FROM status_info
+				 </simple>
+			</setBody>
+			<to uri="direct:sendQuery"/>
+		</route>
+		
+		<route id="sendQuery">	
+			<from uri="direct:sendQuery" />
+			 <to uri="jdbc:memoDataSourceRef" />
+			 <marshal ref="jack"/>
+		</route>
+	
+    </camelContext>
+</blueprint>
