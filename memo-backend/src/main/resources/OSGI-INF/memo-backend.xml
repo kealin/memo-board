@@ -153,6 +153,17 @@ STACKTRACE :: ${exception.stacktrace}
 			 </setBody>
 		</route>
 		
+		<route id="memo-remove">
+			<from uri="activemq:queue:memo-remove" />
+			<setBody>
+				<simple>
+				DELETE FROM memos
+				WHERE id = ${headers.memo_id}
+				</simple>
+			</setBody>
+			<to uri="jdbc:memoDataSourceRef" />
+		</route>
+		
 		<route id="types-get-all">
 			<from uri="activemq:queue:types-get-all" />
 			<setBody>

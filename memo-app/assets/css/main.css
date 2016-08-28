@@ -7,6 +7,10 @@ body {
   border-radius: 0 !important;
 }
 
+li {
+	list-style: none;
+}
+
 .memo {
 	width: 250px;
 	height:300px;
@@ -75,6 +79,19 @@ body {
 	text-align: center;
 	line-height: 250px;
 	font-size: 100px;
+}
+
+.memo:hover .memo-actions {
+    display: block;
+}
+
+.memo-actions {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    right: 0;
+    margin-right: 15px;
+    margin-top: 5px;
 }
 
 .new-memo {

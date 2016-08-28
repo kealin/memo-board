@@ -69,14 +69,19 @@ STACKTRACE :: ${exception.stacktrace}
             </get>
 			
 			<get uri="/types">
-				<description>Get typelist.</description>
+				<description>Get typelist</description>
 				<to uri="activemq:queue:types-get-all" />
 			</get>
 			
 			<post uri="/memos" consumes="application/json" produces="application/json" bindingMode="off">
-				<description>Insert new memo.</description>
+				<description>Insert new memo</description>
 				<to uri="activemq:queue:memo-insert" />
 			</post>
+			
+			<delete uri="/memos/{memo_id}" consumes="application/json" produces="application/json" bindingMode="off">
+				<description>Delete memo</description>
+				<to uri="activemq:queue:memo-remove" />
+			</delete>
         </rest>
 
         <route id="rest-web-static-route">
