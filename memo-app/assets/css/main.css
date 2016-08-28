@@ -1,5 +1,5 @@
 body {
-	background-image: url("../img/sayagata-400px.png");
+	background-color: #a6a6a6;
 	font-family: 'Roboto';
 }
 
@@ -11,68 +11,97 @@ li {
 	list-style: none;
 }
 
+.memo-wrapper {
+	width: 300px;
+}
+
+.memo-main {
+	float:left;
+}
+
 .memo {
 	width: 250px;
 	height:300px;
 	background-color: #f2f2f2;
-	box-shadow: 0px 4px 6px #333;
-	-moz-box-shadow: 0px 4px 6px #333;
-	-webkit-box-shadow: 0px 4px 6px #333;
-	margin: 10px;
-	border-style: solid;
-	border-width: 1px;
+	margin-bottom: 20px;
 }
 
-.memo-title-red {
+.memo-title {
 	height:50px;
-	background-color: #ff3333;
-	color: white;
-	font-weight: 700;
-	line-height: 50px;
-	padding-left: 10px;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-color: black;
-}
-
-.memo-title-yellow {
-	height:50px;
-	background-color: #ffff00;
+	background-color: #b3b3ff;
 	color: black;
-	line-height: 50px;
 	font-weight: 700;
+	line-height: 50px;
 	padding-left: 10px;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-color: black;
 }
 
-.memo-title-green {
-	height:50px;
-	background-color:  #00e600;
-	color: white;
-	line-height: 50px;
-	font-weight: 700;
-	padding-left: 10px;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-color: black;
+.memo-status-red {
+	  border-radius: 90px !important;
+	  margin-top: 15px;
+	  margin-right: 5px;
+	  float: left;
+	  display: block;
+	  height: 20px;
+	  width: 20px;
+	  line-height: 50px;
+	  background-color: red;
+	  border-style: solid;
+	  border-width: 3px;
+	  border-color:  #707070;
+}
+
+.memo-status-yellow {
+	  border-radius: 90px !important;
+	  margin-top: 15px;
+	  margin-right: 5px;
+	  float: left;
+	  display: block;
+	  height: 20px;
+	  width: 20px;
+	  line-height: 50px;
+	  background-color: yellow;
+	  border-style: solid;
+	  border-width: 3px;
+	  border-color:  #707070;
+}
+
+.memo-status-green {
+	  border-radius: 90px !important;
+	  margin-top: 15px;
+	  margin-right: 5px;
+	  float: left;
+	  display: block;
+	  height: 20px;
+	  width: 20px;
+	  line-height: 50px;
+	  background-color: green;
+	  border-style: solid;
+	  border-width: 3px;
+	  border-color:  #707070;
+}
+
+.memo-status-none {
+	 display: none;
 }
 
 .memo-title-new, .memo-title-none {
 	height:50px;
-	background-color:  black;
-	color: white;
+	background-color: #b3b3ff;
+	color: black;
+	font-weight: 700;
+	line-height: 50px;
+	padding-left: 10px;
 	line-height: 50px;
 	font-weight: 700;
 	padding-left: 10px;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-color: black;
 }
 
 .memo-content {
 	padding: 10px;
+}
+
+.modal-header {
+	background-color: #b3b3ff;
 }
 
 .memo-content-new {
@@ -81,18 +110,40 @@ li {
 	font-size: 100px;
 }
 
-.memo:hover .memo-actions {
-    display: block;
+.fill {
+	height: 20px;
 }
 
-.memo-actions {
-    display: none;
-    position: absolute;
-    z-index: 3;
-    right: 0;
-    margin-right: 50px;
-    margin-top: 5px;
+.side-container {
+	float: left;
+	width: 30px;
+	background-color: #707070;
+	height: 120px;
+	padding-top: 10px;
+	color: #b3b3ff;
+	
+	 -webkit-transform: perspective(100px) rotateY(20deg);
+    -webkit-transform-origin: left center;
+    -moz-transform: perspective(100px) rotateY(20deg);
+    -moz-transform-origin: left center;
+	
+	box-shadow: 10px 10px 10px 1px #aaaaaa;
 }
+
+.tool-link {
+	color: white;
+}
+
+.tool-link:hover {
+	color: #b3b3ff;
+}
+
+.tool-icon {
+	padding-left: 6px;
+	margin-top: 8px;
+	font-size: 20px;
+}
+
 
 .new-memo {
 	width: 250px;
@@ -104,4 +155,27 @@ li {
 	margin: 10px;
 	border-style: solid;
 	border-width: 1px;
+}
+
+.navbar-memo {
+    background-color:#b3b3ff;
+    color:#ffffff;
+    border-radius:0;
+    border-style: solid;
+    border-bottom: 3px solid #ffffff;
+}
+
+.navbar-memo .navbar-nav > li > a {
+    color:#fff;
+}
+
+.navbar-memo .navbar-nav > li > a:hover, .nav > li > a:focus { 
+text-decoration: none; background-color: #b3b3ff; }
+
+.navbar-memo .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color:transparent;
+}
+.navbar-memo .navbar-brand {
+    color:#eeeeee;
 }

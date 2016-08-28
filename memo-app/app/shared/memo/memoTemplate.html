@@ -1,17 +1,24 @@
-<div class="memo">
-			<div class="memo-actions">
-				<li uib-dropdown>
-				<button class="btn btn-sm btn-default" uib-dropdown-toggle><i class="fa fa-cogs" aria-hidden="true"></i> Manage <span class="caret"></span></button>
-					<ul uib-dropdown-menu>
-						<li><a href="" ng-click="edit({data: memo})"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
-						<li><a href="" ng-click="remove({data: memo})"><i class="fa fa-trash-o" aria-hidden="true"></i> Remove</a></li>
-					</ul>
-				</li>
-            </div>
-	<div ng-class="{'memo-title-red': memo.status_id === 0, 'memo-title-yellow': memo.status_id === 1, 'memo-title-green': memo.status_id === 2, 'memo-title-none': memo.status_id === 3}">
-		{{memo.title}}
+<div class="memo-wrapper">
+
+	<div class="memo-main">
+		<div class="memo">		
+			<div class="memo-title">
+				<span ng-class="{'memo-status-red': memo.status_id === 0, 'memo-status-yellow': memo.status_id === 1, 'memo-status-green': memo.status_id === 2, 'memo-status-none': memo.status_id === 3}"></span> {{memo.title}}
+			</div>
+			<div class="memo-content">
+				{{memo.content}}
+			</div>	
+		</div>
 	</div>
-	<div class="memo-content">
-		{{memo.content}}
+	
+	<div class="memo-tools">
+		<div class="fill" /></div>
+		<div class="side-container">
+			<a href="" class="tool-link" ng-click="edit({data: memo})"><i class="fa fa-pencil tool-icon" aria-hidden="true"></i></a>
+			<br>
+			<a href="" class="tool-link" ng-click="remove({data: memo})"><i class="fa fa-trash-o tool-icon" aria-hidden="true"></i></a>
+			<br>
+			<a href="" class="tool-link"><i class="fa fa-search tool-icon" aria-hidden="true"></i></a>
+		</div>
 	</div>
 </div>
