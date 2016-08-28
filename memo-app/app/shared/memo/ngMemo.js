@@ -5,7 +5,8 @@ angular.module('app').directive('ngMemo', function () {
 		scope: {
 			memo: '=',
 			remove: '&',
-			edit: '&'
+			edit: '&',
+			view: '&'
 		},
 		link: function ($scope, element, attr) {
 			

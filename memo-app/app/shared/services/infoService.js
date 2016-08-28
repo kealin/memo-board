@@ -1,12 +1,12 @@
 angular.module('app')
-	.service('memoService', ['$uibModal', 'Notification',
-		function ($uibModal, Notification) {
+	.service('infoService', ['$uibModal',
+		function ($uibModal) {
 
 		var defaults = {
 			backdrop: true,			
 			keyboard: true,
 			modalFade: true,
-			templateUrl: '/app/shared/modals/memo.html'
+			templateUrl: '/app/shared/modals/info.html'
 		};
 		
 		var options = {
@@ -32,12 +32,9 @@ angular.module('app')
 			if (!tempDefaults.controller) {
 				tempDefaults.controller = function ($scope, $uibModalInstance) {
 					$scope.options = tempOptions;
-					$scope.options.ok = function (result) {
-						$uibModalInstance.close($scope.options);
-					};
 					$scope.options.close = function (result) {
-						$uibModalInstance.dismiss('cancel');
-					};
+						$uibModalInstance.close();
+					};				
 				}
 			}
 

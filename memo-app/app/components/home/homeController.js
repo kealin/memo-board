@@ -1,6 +1,8 @@
 angular.module('app')
-	.controller('homeController', ['$scope', 'dataService', '$routeParams', 'Notification', 'memoService', 'blockUI', 'confirmService',
-		function($scope, dataService, $routeParams, Notification, memoService, blockUI, confirmService){
+	.controller('homeController', ['$scope', 'dataService', '$routeParams', 'Notification',
+			'memoService', 'blockUI', 'confirmService', 'infoService',
+		function($scope, dataService, $routeParams, Notification, 
+			memoService, blockUI, confirmService, infoService){
 	
 	$scope.memos = {};
 	$scope.types = {};
@@ -26,6 +28,14 @@ angular.module('app')
 			}, function (error) {
 				if(error.message) Notification.error({message: error.message, title: 'Error fetching types'});
 				else Notification.error('Error fetching types');	
+		});
+	}
+	
+	$scope.view = function(memo) {
+		infoService.show({}, memo).then(function (result) {		
+		}, function (error) {
+				if(error.message) Notification.error({message: error.message, title: 'Error loading note'});
+				else Notification.error('Error loading note');
 		});
 	}
 	
