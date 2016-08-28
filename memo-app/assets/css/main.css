@@ -161,7 +161,7 @@ li {
 	padding: 10px;
 	height: 230px;
 	word-wrap: break-word;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .modal-header {
