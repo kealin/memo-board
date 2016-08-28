@@ -82,6 +82,11 @@ STACKTRACE :: ${exception.stacktrace}
 				<description>Delete memo</description>
 				<to uri="activemq:queue:memo-remove" />
 			</delete>
+			
+			<put uri="/memos" consumes="application/json" produces="application/json" bindingMode="off">
+				<description>Update memo</description>
+				<to uri="activemq:queue:memo-update" />
+			</put>
         </rest>
 
         <route id="rest-web-static-route">

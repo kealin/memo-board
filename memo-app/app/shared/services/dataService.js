@@ -16,7 +16,7 @@ angular.module('app')
 	};
 
 	this.update = function (memo) {
-		return $http.put(urlBase + '/' + memo.ID, memo)
+		return $http.put(urlBase, memo)
 	};
 
 	this.remove = function (id) {

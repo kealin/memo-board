@@ -164,6 +164,46 @@ STACKTRACE :: ${exception.stacktrace}
 			<to uri="jdbc:memoDataSourceRef" />
 		</route>
 		
+		<route id="memo-update">
+			<from uri="activemq:queue:memo-update" />
+			
+			<log message="Recieved ${body}" />
+			
+			<setHeader headerName="memo_id">
+				<jsonpath suppressExceptions="true">id</jsonpath>
+			</setHeader>
+			
+			<setHeader headerName="memo_title">
+				<jsonpath suppressExceptions="true">title</jsonpath>
+			</setHeader>
+			
+			<setHeader headerName="memo_content">
+				<jsonpath suppressExceptions="true">content</jsonpath>
+			</setHeader>
+			
+			<setHeader headerName="status_id">
+				<jsonpath suppressExceptions="true">status_id</jsonpath>
+			</setHeader>
+			
+			<setBody>
+				<simple>
+					UPDATE memos 
+					SET title='${headers.memo_title}',
+						  content='${headers.memo_content}'
+				    WHERE id = ${headers.memo_id}
+				</simple>
+			</setBody>
+			<to uri="jdbc:memoDataSourceRef" />
+			<setBody>
+				<simple>
+					UPDATE status 
+					SET status_id=${headers.status_id}
+				    WHERE memo_id = ${headers.memo_id}
+				</simple>
+			</setBody>		
+			<to uri="jdbc:memoDataSourceRef" />
+		</route>
+		
 		<route id="types-get-all">
 			<from uri="activemq:queue:types-get-all" />
 			<setBody>

@@ -1,12 +1,12 @@
 angular.module('app')
-	.service('newMemoService', ['$uibModal',
+	.service('memoService', ['$uibModal',
 		function ($uibModal) {
 
 		var defaults = {
 			backdrop: true,			
 			keyboard: true,
 			modalFade: true,
-			templateUrl: '/app/shared/modals/newMemo.html'
+			templateUrl: '/app/shared/modals/memo.html'
 		};
 		
 		var options = {
