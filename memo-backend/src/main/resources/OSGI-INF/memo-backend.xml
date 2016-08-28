@@ -81,7 +81,7 @@ STACKTRACE :: ${exception.stacktrace}
 		
 		<route id="memo-insert-new">
 			<from uri="activemq:queue:memo-insert"/>		
-			
+			<log message="Enter body: ${body}"/>
 			<setHeader headerName="memo_content">
 				<jsonpath suppressExceptions="true">memo_content</jsonpath>
 			</setHeader>
@@ -103,29 +103,55 @@ STACKTRACE :: ${exception.stacktrace}
 		
 		<route id="insert-memo">
             <from uri="direct:insert-memo" />
-			<log message="Entered insert route"/>
+			<log message="Entered insert route, title: ${headers.memo_title}, content: ${headers.memo_content}"/>
             <setBody>
                 <simple>
                   INSERT INTO memos
                              (title, content)
 				  VALUES
-							(${headers.memo_title}, ${headers.memo_content})
+							('${headers.memo_title}', '${headers.memo_content}')
                 </simple>
             </setBody>
             <to uri="jdbc:memoDataSourceRef" />
-			<log message="${body}"/>
 			
             <setBody>
                 <simple>
-                     SELECT LAST_INSERT_ID()
+                      SELECT LAST_INSERT_ID(id) as memo_id
+					  FROM memos
+					  ORDER BY LAST_INSERT_ID(id) desc limit 1;
                 </simple>
             </setBody>
+			
             <to uri="jdbc:memoDataSourceRef" />
-            	
+            <marshal ref="jack"/>
+			
 			<setHeader headerName="memo_id">
-				<jsonpath suppressExceptions="true">id</jsonpath>
+				<jsonpath suppressExceptions="true">$[0].memo_id</jsonpath>
 			</setHeader>
+			
+			<to uri="direct:insert-status"/>
         </route>
+		
+		<route id="insert-status">
+			<from uri="direct:insert-status" />
+			
+			<setBody>
+				<simple>
+					INSERT INTO status
+						(memo_id, status_id)
+					VALUES
+						('${headers.memo_id}', '${headers.status_id}')
+				</simple>
+			</setBody>
+			 <to uri="jdbc:memoDataSourceRef" />
+			 <setBody>
+				<simple>
+					{
+						"id" : ${headers.memo_id}
+					}
+				</simple>
+			 </setBody>
+		</route>
 		
 		<route id="types-get-all">
 			<from uri="activemq:queue:types-get-all" />

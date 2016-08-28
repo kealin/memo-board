@@ -29,11 +29,14 @@ angular.module('app')
 		});
 	}
 	
+	
 	$scope.new = function() {
 		var options = { types: $scope.types };
 		newMemoService.show({}, options).then(function (result) {
 			var payload = { 'memo_title' : result.title, 'memo_content'  : result.content, 'status_id' : result.type }
 			dataService.insert(payload).then(function (response) {
+				var insert = {'title' : payload.memo_title, 'content' : payload.memo_content, 'status_id' : payload.status_id}
+				$scope.memos.push(insert);
 				Notification.success('Note added');
 			}, function (error) {
 				if(error.message) Notification.error({message: error.message, title: 'Error adding note'});
@@ -41,6 +44,15 @@ angular.module('app')
 			});
 		});
 	}    	
+	
+	$scope.delete = function(id) {
+		dataService.remove(id).then(function (response) {
+				Notification.success('Note removed');
+			}, function (error) {
+				if(error.message) Notification.error({message: error.message, title: 'Error removing note'});
+				else Notification.error('Error removing note');
+			});
+	}
 }]);
        
                 

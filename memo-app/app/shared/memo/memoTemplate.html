@@ -1,5 +1,5 @@
 <div class="memo">
-	<div ng-class="{'memo-title-red': memo.type === 'red', 'memo-title-yellow': memo.type === 'yellow', 'memo-title-green': memo.type === 'green', 'memo-title-none': memo.type === 'none'}">
+	<div ng-class="{'memo-title-red': memo.status_id === 0, 'memo-title-yellow': memo.status_id === 1, 'memo-title-green': memo.status_id === 2, 'memo-title-none': memo.status_id === 3}">
 		{{memo.title}}
 	</div>
 	<div class="memo-content">

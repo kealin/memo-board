@@ -19,7 +19,7 @@ angular.module('app')
 		return $http.put(urlBase + '/' + memo.ID, memo)
 	};
 
-	this.delete = function (id) {
+	this.remove = function (id) {
 		return $http.delete(urlBase + '/' + id);
 	};
 }]);
