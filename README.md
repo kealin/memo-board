@@ -1,6 +1,5 @@
 # memo-board
-simple memo-board with camel blueprint/angularjs  
-[demo](http://www.lindqvist.kim/memo-app/#/) (frontend isolated)
+simple memo-board with camel blueprint/angularjs
 
 ##Setting up backend in karaf:
 
